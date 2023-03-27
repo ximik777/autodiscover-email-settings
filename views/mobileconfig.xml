@@ -95,6 +95,28 @@
 			<real>1</real>
 		</dict>
 {% endif %}
+{% if caldav.host and caldav_enabled %}
+		<dict>
+			<key>CalDAVAccountDescription</key>
+			<string>{{email}}</string>
+			<key>CalDAVHostName</key>
+			<string>{{caldav.host}}</string>
+			<key>CalDAVPort</key>
+			<integer>{{caldav.port}}</integer>
+			<key>CalDAVUseSSL</key>
+			{% if caldavssl %}<true/>{% else %}<false/>{% endif %}
+			<key>CalDAVUsername</key>
+			<string>{{email}}</string>
+			<key>PayloadIdentifier</key>
+			<string>{{mobile.identifier}}.com.apple.caldav.account.{{mobile.caldav.uuid}}</string>
+			<key>PayloadType</key>
+			<string>com.apple.caldav.account</string>
+			<key>PayloadUUID</key>
+			<string>{{mobile.caldav.uuid}}</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+		</dict>
+{% endif %}
 	</array>
 	<key>PayloadDescription</key>
 	<string>{{info.name}}</string>

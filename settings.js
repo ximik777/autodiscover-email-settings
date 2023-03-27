@@ -32,6 +32,11 @@ module.exports = {
 		usersbase: process.env.LDAP_USER_BASE,
 		searchfilter: process.env.LDAP_SEARCH
 	},
+	caldav: {
+		host: process.env.CALDAV_HOST,
+		port: process.env.CALDAV_PORT,
+		socket: process.env.CALDAV_SOCKET
+	},
 	mobile: {
 		identifier: process.env.PROFILE_IDENTIFIER,
 		uuid: process.env.PROFILE_UUID,
@@ -40,6 +45,9 @@ module.exports = {
 		},
 		ldap: {
 			uuid: process.env.LDAP_UUID,
+		},
+		caldav: {
+			uuid: process.env.CALDAV_UUID,
 		}
 	}
 };

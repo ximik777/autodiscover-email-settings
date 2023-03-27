@@ -1,5 +1,6 @@
 "use strict";
 
+const config    = require('dotenv').config();
 const path		= require("path");
 const app		= require("koa")();
 const swig		= require("koa-swig");
@@ -20,18 +21,18 @@ function findChild(name, children, def = null) {
 function *autodiscover() {
 	this.set("Content-Type", "application/xml");
 
-	const request	= this.request.body && this.request.body.root ? 
-		findChild("Request", this.request.body.root.children) : 
+	const request	= this.request.body && this.request.body.root ?
+		findChild("Request", this.request.body.root.children) :
 		null;
-	const schema	= request !== null ? 
-		findChild("AcceptableResponseSchema", request.children) : 
+	const schema	= request !== null ?
+		findChild("AcceptableResponseSchema", request.children) :
 		null;
-	const xmlns		= schema !== null ? 
-		schema.content : 
+	const xmlns		= schema !== null ?
+		schema.content :
 		"http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006";
 
-	let email		= request !== null ? 
-		findChild("EMailAddress", request.children) : 
+	let email		= request !== null ?
+		findChild("EMailAddress", request.children) :
 		null;
 
 	let username;
@@ -81,6 +82,8 @@ router.get("/mail/config-v1.1.xml", function *autoconfig() {
 // iOS / Apple Mail (/email.mobileconfig?email=username@domain.com or /email.mobileconfig?email=username)
 router.get("/email.mobileconfig", function *autoconfig() {
 	let email = this.request.query.email;
+	let caldav_enabled = this.request.query.caldav === "on";
+
 
 	if (!email) {
 		this.status = 400;
@@ -105,6 +108,7 @@ router.get("/email.mobileconfig", function *autoconfig() {
 	const popssl	= settings.pop.socket === "SSL" || settings.pop.socket === "STARTTLS" ? "true" : "false";
 	const smtpssl	= settings.smtp.socket === "SSL" || settings.smtp.socket === "STARTTLS" ? "true" : "false";
 	const ldapssl	= settings.ldap.socket === "SSL" || settings.ldap.port === "636" ? "true" : "false";
+	const caldavssl	= settings.caldav.socket === "SSL" || settings.caldav.socket === "STARTTLS";
 
 	this.set("Content-Type", "application/x-apple-aspen-config; charset=utf-8");
 	this.set("Content-Disposition", `attachment; filename="${filename}"`);
@@ -116,7 +120,9 @@ router.get("/email.mobileconfig", function *autoconfig() {
 		imapssl,
 		popssl,
 		smtpssl,
-		ldapssl
+		ldapssl,
+		caldavssl,
+		caldav_enabled
 	});
 });
 

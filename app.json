@@ -44,6 +44,20 @@
 			"description": "Your SMTP Socket",
 			"value": "STARTTLS"
 		},
+
+		"CALDAV_HOST": {
+			"description": "Your CALDAV Host",
+			"value": "caldav.example.com"
+		},
+		"CALDAV_PORT": {
+			"description": "Your CALDAV Port",
+			"value": "587"
+		},
+		"CALDAV_SOCKET": {
+			"description": "Your CALDAV Socket",
+			"value": "STARTTLS"
+		},
+
 		"MOBILESYNC_URL": {
 			"description": "MobileSync URL",
 			"value": "https://sync.example.com"
